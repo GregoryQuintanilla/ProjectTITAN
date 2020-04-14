@@ -1,0 +1,10 @@
+.register{
+    display: flex;
+    position: relative;
+    top: 100px;
+    left: 425px;
+    height: 100%;
+    width: 100%;
+
+}
+
