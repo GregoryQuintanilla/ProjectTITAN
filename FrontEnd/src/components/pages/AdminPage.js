@@ -1,19 +1,19 @@
-import React, { Component } from "react"
+import React, { Component } from "react";
 import { Link } from 'react-router-dom';
 import {MDBTabPane, MDBTabContent,MDBNavbar, MDBNavbarBrand, MDBNavbarNav,MDBNavItem, MDBContainer, MDBCard, MDBCol, MDBRow, MDBCardText, MDBBtn, MDBIcon} from 'mdbreact';
-import  GoogleMapReact from 'google-map-react';
-import "./AdminPage.css"
+import  {GoogleMap, LoadScript} from '@react-google-maps/api';
+import "./AdminPage.css";
+import * as utils from './test.js';
 
 class AdminPage extends Component {
 
     state = {
         isOpen: false
-    };
+   };
 
     state = {
         activeItem: "1"
     }
-
     toggle = tab => () => {
         if (this.state.activeItem !== tab) {
             this.setState({
@@ -23,8 +23,7 @@ class AdminPage extends Component {
     }
     render() {
         return (
-
-        <MDBContainer fluid>
+          <MDBContainer fluid>
             <MDBRow>
                 <MDBCol  className={"uisection"} sm="3">
                     <MDBRow className={"row1"}>
@@ -107,10 +106,13 @@ class AdminPage extends Component {
                                         >
                                             <MDBBtn className={"UploadStops"} color="primary">Upload Stops</MDBBtn>
                                         </Link>
-                                        <MDBBtn className={"CalculateBtn "}>
-                                            Calculate
 
+
+                                        <MDBBtn className= {"CalculateBtn"} onClick={(e) => {utils.displayNumber(1)}}>
+                                            Calculate
                                         </MDBBtn>
+
+
 
                                     </MDBCard>
                                 </MDBTabPane>
@@ -118,29 +120,23 @@ class AdminPage extends Component {
                             </MDBTabContent>
                         </MDBCol>
                     </MDBRow>
-
-                </MDBCol>
-                <MDBCol className={"mapsection"} sm="9">
-                    <GoogleMapReact
-                        defaultCenter={{lat: 10, lng: 10}}
-                        defaultZoom={7}
-                    />
-                </MDBCol>
-            </MDBRow>
+               </MDBCol>
+          </MDBRow>
+          <MDBRow>
+             <MDBBtn className={"Test"} color="primary">Test</MDBBtn>
+              <LoadScript
+                   id="script-loader"
+                   googleMapsapiKey = "AIzaSyBGfI5yVMIYp2OsKUcrudxaZ22TkdfshqI"
+                   >
+                        <GoogleMap
+                            id='example-map'
+                            >
+                       </GoogleMap>
+                     </LoadScript>
+          </MDBRow>
         </MDBContainer>
-
         );
     }
 }
 
 export default AdminPage;
-
-
-
-
-
-
-
-
-
-
