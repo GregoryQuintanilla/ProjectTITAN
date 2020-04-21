@@ -121,18 +121,26 @@ class AdminPage extends Component {
                         </MDBCol>
                     </MDBRow>
                </MDBCol>
-          </MDBRow>
-          <MDBRow>
-             <MDBBtn className={"Test"} color="primary">Test</MDBBtn>
-              <LoadScript
-                   id="script-loader"
-                   googleMapsapiKey = "AIzaSyBGfI5yVMIYp2OsKUcrudxaZ22TkdfshqI"
-                   >
-                        <GoogleMap
-                            id='example-map'
-                            >
-                       </GoogleMap>
-                     </LoadScript>
+               <MDBCol className={'mapsection'} sm="9">
+                   <LoadScript
+                        id="script-loader"
+                        googleMapsApiKey = "AIzaSyBGfI5yVMIYp2OsKUcrudxaZ22TkdfshqI"
+                        >
+                             <GoogleMap
+                                 id='example-map'
+                                 mapContainerStyle={{
+                                      height:'100%',
+                                      width:'100%'
+                                 }}
+                                 zoom={15}
+                                 center = {{
+                                      lat:40.710,
+                                      lng:-73.601,
+                                 }}
+                                 >
+                            </GoogleMap>
+                          </LoadScript>
+                     </MDBCol>
           </MDBRow>
         </MDBContainer>
         );
