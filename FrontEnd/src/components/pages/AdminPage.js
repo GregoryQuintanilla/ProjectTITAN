@@ -1,18 +1,28 @@
 import React, { Component } from "react";
 import { Link } from 'react-router-dom';
 import {MDBTabPane, MDBTabContent,MDBNavbar, MDBNavbarBrand, MDBNavbarNav,MDBNavItem, MDBContainer, MDBCard, MDBCol, MDBRow, MDBCardText, MDBBtn, MDBIcon} from 'mdbreact';
-import  {GoogleMap, LoadScript} from '@react-google-maps/api';
+import  {GoogleMap, LoadScript,DirectionsService, DirectionsRenderer, DistanceMatrixService} from '@react-google-maps/api';
 import "./AdminPage.css";
-import * as utils from './test.js';
+import * as routeBuilder from './routeBuilder.js';
 
 class AdminPage extends Component {
-
     state = {
-        isOpen: false
-   };
-
-    state = {
-        activeItem: "1"
+        activeItem: "1",
+        directionsService: null,
+        directionsRenderer: null,
+        distanceMatrixService: null,
+        origin: ["40.713333, -73.602316"],
+        stops: ["40.710809, -73.597700",
+               "40.711851, -73.606779",
+               "40.710916, -73.603510",
+               "40.712388, -73.607007",
+               "40.710639, -73.575412",
+               "40.707671, -73.572146",
+               "40.721859, -73.623643",
+               "40.715244, -73.609998",
+               "40.725522, -73.611866",
+               "40.710146, -73.608804",
+               "40.705958, -73.587641"]
     }
     toggle = tab => () => {
         if (this.state.activeItem !== tab) {
@@ -108,7 +118,7 @@ class AdminPage extends Component {
                                         </Link>
 
 
-                                        <MDBBtn className= {"CalculateBtn"} onClick={(e) => {utils.displayNumber(1)}}>
+                                        <MDBBtn className= {"CalculateBtn"} onClick={(e) => {routeBuilder.calcRoute(this.state.origin, this.state.stops, this.state.directionsService, this.state.directionsRenderer, this.state.distanceMatrixService)}}>
                                             Calculate
                                         </MDBBtn>
 
@@ -138,6 +148,57 @@ class AdminPage extends Component {
                                       lng:-73.601,
                                  }}
                                  >
+                                 <DirectionsService
+                                 options={{
+                                      destination:"Hofstra University",
+                                      waypoints:[{location:"35.934354, -83.584621", stopover:true}],
+                                      origin: "22303 Covella Court",
+                                      travelMode:"DRIVING"
+
+                                 }}
+                                 callback = {this.serviceCallBack }
+                                 onLoad={directionsService => {
+                                      console.log(directionsService);
+                                      this.state.directionsService = directionsService;
+                                 }}
+                                 onUnmount = {directionService =>{
+                                      console.log(directionService);
+                                 }}
+                               />
+                                }
+
+                                  {
+                                       //(this.state.response !== null) && (
+                                       <DirectionsRenderer
+                                       options={{
+                                            directions: this.state.response,
+                                       }}
+                                       onLoad = { directionsRenderer => {
+                                            console.log("DirectionsRenderer Loaded" + directionsRenderer);
+                                            console.log("DirectionsLoaded " + this.state.directions);
+                                            this.state.directionsRenderer = directionsRenderer;
+                                       }}
+                                       onUnmount = { directionsRenderer => {
+                                            console.log(directionsRenderer);
+                                       }}
+                                     />
+                                  //)
+                                  }
+
+                                  {
+                                       <DistanceMatrixService
+                                            options={{
+                                                 origin: null,
+                                                 destinations: null,
+                                                 travelMode: ''
+                                            }}
+                                            callback={ this.distanceCallBack}
+                                            onLoad = {distanceMatrixService => {
+
+                                                 this.state.distanceMatrixService = distanceMatrixService;
+                                            }}
+                                            />
+                                  }
                             </GoogleMap>
                           </LoadScript>
                      </MDBCol>
