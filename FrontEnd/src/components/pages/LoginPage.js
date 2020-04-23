@@ -7,7 +7,7 @@ const LoginPage =()=>{
     return (
         <MDBContainer>
             <MDBRow>
-                <MDBCol md="6">
+                <MDBCol sm="6">
                     <MDBCard className={"LoginCard"}>
                         <MDBCardBody className="mx-4">
                             <div className="text-center">

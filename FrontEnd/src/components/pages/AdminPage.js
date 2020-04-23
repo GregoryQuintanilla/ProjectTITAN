@@ -127,6 +127,9 @@ class AdminPage extends Component {
                                         >
                                             <MDBBtn className={"UploadStops"} color="primary">Upload Stops</MDBBtn>
                                         </Link>
+                                        <MDBBtn className={"CalculateBtn white-text "} color={"primary"}>
+
+                                            Calculate
 
 
                                         <MDBBtn className= {"CalculateBtn"} onClick={() => {routeBuilder.calcRoute(this.state.origin, this.state.stops, this.state.directionsService, this.state.directionsRenderer, this.state.distanceMatrixService)}}>
