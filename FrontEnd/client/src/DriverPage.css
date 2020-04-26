@@ -1,0 +1,87 @@
+
+.ContentCol{
+    top:0px;
+    left:0;
+    right:0px;
+    bottom:10%;
+    position: fixed;
+
+}
+.CardCol{
+    position: absolute;
+    left:0;
+    padding: 0;
+    width:100%;
+    height:100%;
+}
+
+.TabCol{
+    position: fixed;
+    padding: 0;
+    top:90%;
+    left:0px;
+    right:0px;
+    bottom: 0;
+}
+.Map{
+    left:0;
+}
+
+.NavBarMobile{
+    height: 100%;
+    width: 100%;
+    background: #3358f4;
+    background: -webkit-linear-gradient(0deg, #3358f4 0%, #1d8cf8 100%);
+    background: -o-linear-gradient(0deg, #3358f4 0%, #1d8cf8 100%);
+    background: -moz-linear-gradient(0deg, #3358f4 0%, #1d8cf8 100%);
+    background: linear-gradient(0deg, #3358f4 0%, #1d8cf8 100%);;
+}
+
+.ItineraryBtn{
+    padding:1rem;
+    width:30%;
+    bottom: 0;
+    position: absolute;
+    left:33.5%;
+}
+.ItineraryCardCol{
+    height:100%;
+    padding: 0;
+
+}
+.ItineraryCard{
+    background-color: #171941;
+}
+.DirectionsBtn{
+    padding:1rem;
+    width:30%;
+    bottom: 0;
+    position: absolute;
+    right:0;
+}
+
+.MapBtn{
+    padding:1rem;
+    width:30%;
+    bottom: 0;
+    position: absolute;
+    left:0;
+}
+
+.LogOutBtn{
+    padding:1rem;
+    width:30%;
+    bottom: 0;
+    position: absolute;
+    right:0;
+
+}
+
+.ItineraryHeader{
+    background: #3358f4;
+    background: -webkit-linear-gradient(0deg, #3358f4 0%, #1d8cf8 100%);
+    background: -o-linear-gradient(0deg, #3358f4 0%, #1d8cf8 100%);
+    background: -moz-linear-gradient(0deg, #3358f4 0%, #1d8cf8 100%);
+    background: linear-gradient(0deg, #3358f4 0%, #1d8cf8 100%);;
+
+}
