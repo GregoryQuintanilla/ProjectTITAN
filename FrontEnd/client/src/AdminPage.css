@@ -58,7 +58,6 @@
     paddding:0rem;
     position: fixed;
     left:-20px;
-    background-color: red;
     width:10%;
 
 }
@@ -71,7 +70,6 @@
 }
 .row2{
     height:100%;
-    background-color: red;
 }
 
 
@@ -208,11 +206,6 @@
 
 }
 
-.FormCard{
-    position:absolute;
-    width:50%;
-    height:50%;
-}
 
 .Input{
     position:absolute;
@@ -234,14 +227,15 @@
     background-color: white;
 }
 .btn-block1{
-    top:75.5%;
+    bottom:10%;
     right:10%;
     height:8%;
     width:35%;
     position:absolute;
 }
 .btn-block2{
-    top:75%;
+    padding:0;
+    bottom:10%;
     height:8%;
     left:10%;
     width:35%;
@@ -250,6 +244,7 @@
 
 .btn-block3{
     position: absolute;
+    padding: 0;
     width:30%;
     top:45%;
     left:5%;
@@ -257,6 +252,7 @@
 }
 
 .btn-block4{
+    padding: 0;
     position: absolute;
     width:20%;
     height:8%;
@@ -269,4 +265,17 @@
     left:12.5%;
     top:25%;
     position:absolute;
+}
+.Map{
+    position: fixed;
+    right:0;
+    bottom:0;
+}
+
+.TableHeader{
+    background-color: darkorange;
+}
+
+.text{
+    text-align: center;
 }

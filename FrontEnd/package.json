@@ -1,32 +1,38 @@
 {
-  "name": "mdb-react-admin-template",
+  "name": "TITAN",
   "version": "1.0.0",
-  "description": "MDB - React Admin Dashboard Free",
-  "author": "MDBootstrap <support@mdbootstrap.com>",
-  "license": "MIT",
-  "dependencies": {
-    "google-map-react": "^1.0.6",
-    "google-maps-react": "^2.0.2",
-    "mdbreact": "^4.9.0",
-    "react": "^16.7.0",
-    "react-dom": "^16.7.0",
-    "react-dropzone": "^10.2.2",
-    "react-google-autocomplete": "^1.1.4",
-    "react-google-maps": "^9.4.5",
-    "react-router-dom": "^5.1.2",
-    "react-scripts": "2.1.3",
-    "superagent": "^5.2.2"
-  },
+  "description": "TITAN project for Hofstra CSC 190",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "client": "cd client && yarn start",
+    "server": "nodemon server.js",
+    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
+    "dev:server": "cd client && yarn build && cd .. && yarn start",
+    "start": "node server.js",
+    "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
+  "dependencies": {
+    "@google/maps": "^1.1.0",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "mdbootstrap": "^4.16.0",
+    "mdbreact": "^4.25.6",
+    "mysql": "^2.18.1",
+    "react-router-dom": "^5.1.2"
+  },
+  "devDependencies": {
+    "concurrently": "^5.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GregoryQuintanilla/ProjectTITAN"
+  },
+  "bugs": {
+    "url": "https://github.com/GregoryQuintanilla/ProjectTITAN"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "create-react-app"
   ]
 }

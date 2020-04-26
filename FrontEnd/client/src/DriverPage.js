@@ -16,9 +16,8 @@ import {
     MDBIcon,
     MDBCardBody, MDBCardHeader
 } from 'mdbreact';
-import  GoogleMapReact from 'google-map-react';
 import "./DriverPage.css"
-import { Map, GoogleApiWrapper,Marker,auto } from 'google-maps-react';
+import {GoogleMap, LoadScript} from "@react-google-maps/api";
 
 
 class DriverPage extends Component{
@@ -47,14 +46,26 @@ class DriverPage extends Component{
                         <MDBCol className={"CardCol"}>
                             <MDBTabContent className="card" activeItem={this.state.activeItem}>
                                 <MDBTabPane tabId="1" role="tabpanel" className={"tabpane"}>
-                                        <Map className={"Map"}
-                                             google={this.props.google}
-                                             zoom={14}
-                                             initialCenter={{
-                                                 lat: -1.2884,
-                                                 lng: 36.8233
-                                             }}
-                                        />
+                                    <LoadScript
+                                        id="script-loader"
+                                        // googleMapsApiKey="AIzaSyDHe1AQwUrxyMTl6hrii3nPsfWU4CSbVKg"
+
+                                    >
+                                        <GoogleMap
+                                            id='example-map'
+                                            mapContainerStyle={{
+                                                height: "100%",
+                                                width: "100%"
+                                            }}
+                                            zoom={17}
+                                            center={{
+                                                lat: 40.716,
+                                                lng: -73.601
+                                            }}
+
+                                        >
+                                        </GoogleMap>
+                                    </LoadScript>
                                 </MDBTabPane>
                                 <MDBTabPane tabId="2" role="tabpanel" className={"tabpane"}>
                                     <MDBCol className={"ItineraryCardCol"}>
@@ -113,6 +124,4 @@ class DriverPage extends Component{
     }
 }
 
-export default GoogleApiWrapper({
-    apiKey: ''
-})(DriverPage);
+export default DriverPage;
