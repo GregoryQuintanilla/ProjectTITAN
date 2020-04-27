@@ -17,18 +17,24 @@ import {
     MDBIcon,
     MDBFormInline, MDBCardBody
 } from 'mdbreact';
-import { GoogleMap, LoadScript, DirectionsService, DirectionsRenderer} from '@react-google-maps/api'
+import { GoogleMap, LoadScript, DirectionsService, DirectionsRenderer, Marker} from '@react-google-maps/api'
 import { MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
 import "./AdminPage.css"
+import {computeRoute } from './routeBuilder.js'
 
 var drivers={};
 class AdminPage extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {activeItem: "1",
                         name: '',
                       Username:'',
+                      origin: { lat: 40.716, lng: -73.601},
+                      Map: null,
                       DirectionsService: null,
+                      addresses: null,
+                      geoCodedAddresses: null,// The .length of this will be what was actually sent back from google. This will be the most accurate number of addresses.
+                      Marker: null,
         };
 
         this.handleName = this.handleName.bind(this);
@@ -38,28 +44,93 @@ class AdminPage extends Component {
         this.directionsOnload = this.directionsOnload.bind(this);
         this.onCSVChange = this.onCSVChange.bind(this);
         this.onCSVSubmit = this.onCSVSubmit.bind(this);
+        this.placeMarkers = this.placeMarkers.bind(this);
+        this.geocode = this.geocode.bind(this);
+        this.markerOnload = this.markerOnload.bind(this);
+        this.onMapLoad = this.onMapLoad.bind(this);
+        this.onCalculateClick = this.onCalculateClick.bind(this);
 
     }
-    onCSVChange(event){
-         console.log('file chosen');
+    onMapLoad(map){
+         this.setState({Map:map});
+    }
+    onCSVChange(event,AdminPage){
          let file = document.getElementById('stopUploadForm').datafile.files[0];
          let fr = new FileReader();
          fr.onload = function(e){
-              console.log(fr.result);
+              let text = fr.result;
+              let splitText = text.split('\r\n');
+              let fileLength = splitText.length; // This is the number of addresses uploaded.
+              console.log(splitText);
+              console.log(fileLength);
+              AdminPage.setState({addresses:splitText});
+              AdminPage.geocode();
          }
          fr.readAsText(file);
+    }
+    geocode(){
+         fetch("http://localhost:5000/geocode",{
+              method: 'POST',
+              headers:{
+                   'Content-Type': 'application/json'  //make sure this is spelled right, it makes a difference. 'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(this.state.addresses),
 
-         //console.log(text);
+         })
+         .then(res => res.text())
+         .then(res => this.setState({geoCodedAddresses:res}, this.placeMarkers(this.state.Marker)));
+
+
+
+         /*
+         fetch("http://localhost:5000/",{
+            method: 'POST',
+            headers: {
+                 'Content-Type': 'application/json'
+            },
+              body: JSON.stringify(this.state.addresses),
+         })
+         .then(res => res.text())
+         .then(res => console.log(res));
+         */
+
+
+
+         /*
+         fetch("http://localhost:5000")
+          .then(res => res.text())
+          .then(res => console.log(res));
+          */
+    }
+
+    placeMarkers(marker){
+         console.log("Can I make a *fetch* (sorta) command call a function?");
+         console.log(this.state.geoCodedAddresses);
+         console.log(this.state.Map);
+         console.log(marker.map);
 
     }
     onCSVSubmit(event){
-         event.preventDefault();
+         //TODO
+    }
+    onCalculateClick(){
+         if(this.state.geoCodedAddresses == null){
+              alert("Please upload your locations");
+         }
+         else{
+               let stops = this.state.geoCodedAddresses;
+               let origin = this.state.origin;
+
+               let route = computeRoute(origin,stops);
+               console.log(route);
+          }
     }
     directionsOnload(directionsService){
-         console.log(directionsService);
          this.setState( {DirectionsService: directionsService});
     }
-
+    markerOnload(marker){
+         this.setState({Marker: marker});
+    }
     directionsCallback(){
          //TODO
     }
@@ -226,7 +297,7 @@ class AdminPage extends Component {
                                             >
                                                 <MDBBtn className={"UploadStops"} color="primary">Upload Stops</MDBBtn>
                                             </Link>
-                                            <MDBBtn  className={"CalculateBtn white-text "} color={"primary"}>
+                                            <MDBBtn  className={"CalculateBtn white-text "} color={"primary"} onClick={() => this.onCalculateClick()}>
 
                                                 Calculate
 
@@ -297,7 +368,7 @@ class AdminPage extends Component {
                                                     <form id="stopUploadForm" className={"Form"} onSubmit={(event) => {this.onCSVSubmit(event)}} >
                                                         <p className="h4 text-left py-4">Upload A File</p>
                                                         <div className="grey-text">
-                                                            <input type="file" name='datafile' accept='.csv' onChange={(event) => {this.onCSVChange(event)}} />
+                                                            <input type="file" name='datafile' accept='.csv' onChange={(event) => {this.onCSVChange(event,this)}} />
                                                             <input type="submit"></input>
                                                         </div>
                                                     </form>
@@ -412,6 +483,7 @@ class AdminPage extends Component {
                                            lat: 40.716,
                                            lng: -73.601
                                        }}
+                                       onLoad = {(map) => this.onMapLoad(map)}
 
                             >
                             {
@@ -423,6 +495,12 @@ class AdminPage extends Component {
                                    }}
                                    callback = {this.directionsCallback()}
                                    onLoad = {(directionsService) => {this.directionsOnload(directionsService)}}
+                                 />
+                            }
+                            {
+                                 <Marker
+                                        onLoad = {(marker) => this.markerOnload(marker)}
+                                        position = { {lat:40.7,lng:-73.55} }
                                  />
                             }
                             </GoogleMap>
