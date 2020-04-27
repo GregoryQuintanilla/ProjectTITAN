@@ -2,14 +2,14 @@ export function computeRoute(origin, stops){
      let route = [];
      route.push(origin);
      chooseNextDestination(origin,stops,route);
-     
+
      return route;
 }
 
 function computeDists(origin, locations){
 let dists = [];
 for(let i = 0; i< locations.length ;i++){
-      let currDist = getDistanceFromLatLonInMeters(origin.lat(),origin.lng(),locations[i].lat(),locations[i].lng());
+      let currDist = getDistanceFromLatLonInMeters(origin.lat,origin.lng,locations[i].lat,locations[i].lng);
       dists.push(currDist);
 }
 return dists;
@@ -47,7 +47,7 @@ function returnRoute(route){
 // Greedily selects the next destination based on distance/duration
 function chooseNextDestination(origin, stops, route){
      if(stops.length <= 0){
-           printLatLngs(route);
+           //printLatLngs(route);
            return;
      }
      else{
@@ -66,7 +66,7 @@ function chooseNextDestination(origin, stops, route){
            var newOrigin = shortestDest;
            stops.splice(index,1);
            route.push(newOrigin);
-           chooseNextDestination(newOrigin,stops)
+           chooseNextDestination(newOrigin,stops,route)
      }
 
 }

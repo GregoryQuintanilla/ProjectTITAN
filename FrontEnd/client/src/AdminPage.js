@@ -33,8 +33,12 @@ class AdminPage extends Component {
                       Map: null,
                       DirectionsService: null,
                       addresses: null,
-                      geoCodedAddresses: null,// The .length of this will be what was actually sent back from google. This will be the most accurate number of addresses.
+                      geoCodedAddresses: null, // The .length of this will be what was actually sent back from google. This will be the most accurate number of addresses.
                       Marker: null,
+                      Route: null,
+                      RoutePackage: null,
+                      displayRoute: null,
+                      calledDirectionsService:false,
         };
 
         this.handleName = this.handleName.bind(this);
@@ -49,6 +53,7 @@ class AdminPage extends Component {
         this.markerOnload = this.markerOnload.bind(this);
         this.onMapLoad = this.onMapLoad.bind(this);
         this.onCalculateClick = this.onCalculateClick.bind(this);
+        this.createRoutePackage = this.createRoutePackage.bind(this);
 
     }
     onMapLoad(map){
@@ -57,12 +62,11 @@ class AdminPage extends Component {
     onCSVChange(event,AdminPage){
          let file = document.getElementById('stopUploadForm').datafile.files[0];
          let fr = new FileReader();
+
          fr.onload = function(e){
               let text = fr.result;
               let splitText = text.split('\r\n');
-              let fileLength = splitText.length; // This is the number of addresses uploaded.
-              console.log(splitText);
-              console.log(fileLength);
+              let fileLength = splitText.length;    // This is the number of addresses uploaded.
               AdminPage.setState({addresses:splitText});
               AdminPage.geocode();
          }
@@ -77,30 +81,8 @@ class AdminPage extends Component {
               body: JSON.stringify(this.state.addresses),
 
          })
-         .then(res => res.text())
-         .then(res => this.setState({geoCodedAddresses:res}, this.placeMarkers(this.state.Marker)));
-
-
-
-         /*
-         fetch("http://localhost:5000/",{
-            method: 'POST',
-            headers: {
-                 'Content-Type': 'application/json'
-            },
-              body: JSON.stringify(this.state.addresses),
-         })
-         .then(res => res.text())
-         .then(res => console.log(res));
-         */
-
-
-
-         /*
-         fetch("http://localhost:5000")
-          .then(res => res.text())
-          .then(res => console.log(res));
-          */
+         .then(res => res.json())
+         .then(res => this.setState( {geoCodedAddresses:res }, this.placeMarkers(this.state.Marker)));
     }
 
     placeMarkers(marker){
@@ -111,7 +93,8 @@ class AdminPage extends Component {
 
     }
     onCSVSubmit(event){
-         //TODO
+         event.preventDefault();
+         this.setState({activeItem:"2"});
     }
     onCalculateClick(){
          if(this.state.geoCodedAddresses == null){
@@ -120,10 +103,28 @@ class AdminPage extends Component {
          else{
                let stops = this.state.geoCodedAddresses;
                let origin = this.state.origin;
-
                let route = computeRoute(origin,stops);
-               console.log(route);
+               this.setState({RouteList:route});
+               let routePackage = this.createRoutePackage(route);
+               this.setState({RoutePackage:routePackage})
           }
+    }
+    createRoutePackage(route){
+         let routePackage = [];
+         let origin = route[0];
+         route.splice(0,1);
+         let waypoints = [];
+
+         for(let i = 0; i<route.length-2;i++){
+              waypoints.push({location:route[i],stopover:true});
+         }
+
+         let destination = route[route.length-1];
+         routePackage.push(origin);
+         routePackage.push(waypoints);
+         routePackage.push(destination);
+
+         return routePackage;
     }
     directionsOnload(directionsService){
          this.setState( {DirectionsService: directionsService});
@@ -131,9 +132,19 @@ class AdminPage extends Component {
     markerOnload(marker){
          this.setState({Marker: marker});
     }
-    directionsCallback(){
-         //TODO
-    }
+    directionsCallback(response){
+          if (response !== null) {
+               if (response.status === 'OK') {
+                    this.setState({displayRoute: response, calledDirectionsService:true});
+               }
+               else {
+                    console.log('Error: ', response)
+               }
+          }
+          else{
+               alert("There was no response from the DirectionsService. Something must have gonce wrong with the call.");
+          }
+     }
 
     handleName(event) {
         this.setState({name: event.target.value});
@@ -177,6 +188,7 @@ class AdminPage extends Component {
             });
         }
     }
+
     render() {
         return (
 
@@ -365,6 +377,7 @@ class AdminPage extends Component {
                                         <MDBCard className={"UploadStopsCard"}>
                                             <MDBCard className={"FormCard"}>
                                                 <MDBCardBody>
+
                                                     <form id="stopUploadForm" className={"Form"} onSubmit={(event) => {this.onCSVSubmit(event)}} >
                                                         <p className="h4 text-left py-4">Upload A File</p>
                                                         <div className="grey-text">
@@ -487,16 +500,31 @@ class AdminPage extends Component {
 
                             >
                             {
+                            (this.state.RoutePackage != null && !this.state.calledDirectionsService) && (
                                  <DirectionsService
                                    options = {{
-                                        origin: null,
-                                        destinations: null,
+                                        origin: this.state.RoutePackage[0],
+                                        waypoints: this.state.RoutePackage[1],
+                                        destination: this.state.RoutePackage[2],
                                         travelMode: 'DRIVING'
                                    }}
-                                   callback = {this.directionsCallback()}
+                                   callback = {(response) => this.directionsCallback(response)}
                                    onLoad = {(directionsService) => {this.directionsOnload(directionsService)}}
-                                 />
+                                 />)
                             }
+                           {
+                                (this.state.displayRoute != null) &&
+                                (<DirectionsRenderer
+                                   options={{
+                                        directions:this.state.displayRoute,
+                                        suppressMarkers: true,
+                                        preserveViewport: true,
+                                   }}
+
+
+
+                                />)
+                           }
                             {
                                  <Marker
                                         onLoad = {(marker) => this.markerOnload(marker)}
