@@ -17,7 +17,7 @@ import {
     MDBIcon,
     MDBFormInline, MDBCardBody
 } from 'mdbreact';
-import { GoogleMap, LoadScript} from '@react-google-maps/api'
+import { GoogleMap, LoadScript, DirectionsService, DirectionsRenderer} from '@react-google-maps/api'
 import { MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
 import "./AdminPage.css"
 
@@ -27,13 +27,41 @@ class AdminPage extends Component {
         super();
         this.state = {activeItem: "1",
                         name: '',
-                      Username:''
+                      Username:'',
+                      DirectionsService: null,
         };
 
         this.handleName = this.handleName.bind(this);
         this.handleUserName=this.handleUserName.bind(this);
         this.handleDriverAdd = this.handleDriverAdd.bind(this);
+        this.directionsCallback = this.directionsCallback.bind(this);
+        this.directionsOnload = this.directionsOnload.bind(this);
+        this.onCSVChange = this.onCSVChange.bind(this);
+        this.onCSVSubmit = this.onCSVSubmit.bind(this);
 
+    }
+    onCSVChange(event){
+         console.log('file chosen');
+         let file = document.getElementById('stopUploadForm').datafile.files[0];
+         let fr = new FileReader();
+         fr.onload = function(e){
+              console.log(fr.result);
+         }
+         fr.readAsText(file);
+
+         //console.log(text);
+
+    }
+    onCSVSubmit(event){
+         event.preventDefault();
+    }
+    directionsOnload(directionsService){
+         console.log(directionsService);
+         this.setState( {DirectionsService: directionsService});
+    }
+
+    directionsCallback(){
+         //TODO
     }
 
     handleName(event) {
@@ -266,11 +294,11 @@ class AdminPage extends Component {
                                         <MDBCard className={"UploadStopsCard"}>
                                             <MDBCard className={"FormCard"}>
                                                 <MDBCardBody>
-                                                    <form className={"Form"}>
+                                                    <form id="stopUploadForm" className={"Form"} onSubmit={(event) => {this.onCSVSubmit(event)}} >
                                                         <p className="h4 text-left py-4">Upload A File</p>
                                                         <div className="grey-text">
-                                                            <input type="file" onChange={this.onChange} />
-                                                            <button type="submit">Upload</button>
+                                                            <input type="file" name='datafile' accept='.csv' onChange={(event) => {this.onCSVChange(event)}} />
+                                                            <input type="submit"></input>
                                                         </div>
                                                     </form>
 
@@ -370,7 +398,7 @@ class AdminPage extends Component {
                     <MDBCol className={"mapsection"} sm="9">
                         <LoadScript
                             id="script-loader"
-                            // googleMapsApiKey="AIzaSyDHe1AQwUrxyMTl6hrii3nPsfWU4CSbVKg"
+                            googleMapsApiKey="AIzaSyBGfI5yVMIYp2OsKUcrudxaZ22TkdfshqI"
 
                         >
                             <GoogleMap className={"Map"}
@@ -386,6 +414,17 @@ class AdminPage extends Component {
                                        }}
 
                             >
+                            {
+                                 <DirectionsService
+                                   options = {{
+                                        origin: null,
+                                        destinations: null,
+                                        travelMode: 'DRIVING'
+                                   }}
+                                   callback = {this.directionsCallback()}
+                                   onLoad = {(directionsService) => {this.directionsOnload(directionsService)}}
+                                 />
+                            }
                             </GoogleMap>
                         </LoadScript>
 
