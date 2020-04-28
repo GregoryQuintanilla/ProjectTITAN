@@ -37,7 +37,10 @@ class AdminPage extends Component {
                       Marker: null,
                       Route: null,
                       RoutePackage: null,
-                      displayRoute: null,
+                      displayRoute1: null,
+                      displayRoute2: null,
+                      displayRoute3: null,
+                      displayRoute4: null,
                       calledDirectionsService:false,
         };
 
@@ -45,6 +48,9 @@ class AdminPage extends Component {
         this.handleUserName=this.handleUserName.bind(this);
         this.handleDriverAdd = this.handleDriverAdd.bind(this);
         this.directionsCallback = this.directionsCallback.bind(this);
+        this.directionsCallback2 = this.directionsCallback2.bind(this);
+        this.directionsCallback3 = this.directionsCallback3.bind(this);
+        this.directionsCallback4 = this.directionsCallback4.bind(this);
         this.directionsOnload = this.directionsOnload.bind(this);
         this.onCSVChange = this.onCSVChange.bind(this);
         this.onCSVSubmit = this.onCSVSubmit.bind(this);
@@ -54,6 +60,7 @@ class AdminPage extends Component {
         this.onMapLoad = this.onMapLoad.bind(this);
         this.onCalculateClick = this.onCalculateClick.bind(this);
         this.createRoutePackage = this.createRoutePackage.bind(this);
+
 
     }
     onMapLoad(map){
@@ -82,7 +89,7 @@ class AdminPage extends Component {
 
          })
          .then(res => res.json())
-         .then(res => this.setState( {geoCodedAddresses:res }, this.placeMarkers(this.state.Marker)));
+         .then(res => this.setState( {geoCodedAddresses:res }));//, this.placeMarkers(this.state.Marker)));
     }
 
     placeMarkers(marker){
@@ -97,29 +104,114 @@ class AdminPage extends Component {
          this.setState({activeItem:"2"});
     }
     onCalculateClick(){
-         if(this.state.geoCodedAddresses == null){
-              alert("Please upload your locations");
-         }
-         else{
+         // if(this.state.geoCodedAddresses == null){
+         //      alert("Please upload your locations");
+         // }
+         // else{
+               // let stops = [];
+               // for(let j = 0;j<100;j++){
+               //      stops.push(j);
+               // }
+               //console.log(stops);
+               //let sections = Math.ceil(stops.length/25)//let sections = Math.ceil(this.state.geoCodedAddresses / 25);
+               //let stops = this.state.geoCodedAddresses;
+               //let firstSection = []; // origin: origin, stops:0-23, destination:24
+               // firstSection.push(-1);//firstSection.push(this.state.origin);
+               // for(let i = 0;i<stops.length;i++){
+               //      firstSection.push(stops[i]);
+               // }
+
                let stops = this.state.geoCodedAddresses;
+               console.log(stops);
                let origin = this.state.origin;
                let route = computeRoute(origin,stops);
-               this.setState({RouteList:route});
-               let routePackage = this.createRoutePackage(route);
-               this.setState({RoutePackage:routePackage})
-          }
+               console.log(route);
+               //this.setState({RouteList:route});
+
+               let sections = Math.ceil(route.length / 25);
+               let firstSection = [];
+               let secondSection = [];
+               let thirdSection = [];
+               let fourthSection = [];
+
+               if(sections>=1){
+                    //firstSection.push(route[0]);
+                    for(let i =0; i< route.length;i++){
+                         firstSection.push(route[i]);
+                    }
+                    console.log("1:");
+                    console.log(firstSection);
+               }
+               // let secondSection = firstSection.splice(26,firstSection.length); // origin: 24, waypoint:25-49, destination:50
+               // firstSection.push(secondSection[0]);
+               // let thirdSection =  secondSection.splice(26,stops.length); // origin 50, waypoints:51-74, destiantion:75
+               // secondSection.push(thirdSection[0]);
+               // let fourthSection = thirdSection.splice(26,stops.length); //origin 75, waypoints:76-98, destination:99
+               // thirdSection.push(fourthSection[0]);
+               if(sections>=2){
+                    secondSection = firstSection.splice(26,firstSection.length); // origin: 24, waypoint:25-49, destination:50
+                    firstSection.push(secondSection[0]);
+                    console.log("2: ");
+                    console.log(secondSection);
+               }
+               if(sections >=3){
+                    thirdSection =  secondSection.splice(26,stops.length); // origin 50, waypoints:51-74, destiantion:75
+                    secondSection.push(thirdSection[0]);
+                    console.log("3: ");
+                    console.log(thirdSection);
+               }
+               if(sections >= 4){
+                    fourthSection = thirdSection.splice(26,stops.length); //origin 75, waypoints:76-98, destination:99
+                    thirdSection.push(fourthSection[0]);
+                    console.log("4: ");
+                    console.log(fourthSection);
+               }
+
+
+
+
+               let routePackage1 = null;
+               let routePackage2 = null;
+               let routePackage3 = null;
+               let routePackage4 = null;
+
+               if(sections >= 1){
+                    console.log("1 package");
+                    routePackage1 = this.createRoutePackage(firstSection);
+                    console.log(routePackage1);
+                    this.setState({RoutePackage1:routePackage1});
+               }
+               if(sections >=2 ){
+                    console.log("2 package");
+                    routePackage2 = this.createRoutePackage(secondSection);
+                    this.setState({RoutePackage2:routePackage2});
+               }
+               if(sections >= 3){
+                    console.log("3 package");
+                    routePackage3 = this.createRoutePackage(thirdSection);
+                    this.setState({RoutePackage3:routePackage3});
+               }
+               if(sections >= 4){
+                    console.log("4 package");
+                    routePackage4 = this.createRoutePackage(fourthSection);
+                    this.setState({RoutePackage4:routePackage4});
+               }
+               //this.setState({RoutePackage1:routePackage1,RoutePackage2:routePackage2,RoutePackage3:routePackage3,RoutePackage4:routePackage4 })
+          // }
     }
     createRoutePackage(route){
          let routePackage = [];
          let origin = route[0];
+         let destination = route[route.length-1];
          route.splice(0,1);
+         route.splice(route.length-1,1);
          let waypoints = [];
 
-         for(let i = 0; i<route.length-2;i++){
+         for(let i = 0; i<route.length-1;i++){
               waypoints.push({location:route[i],stopover:true});
          }
 
-         let destination = route[route.length-1];
+
          routePackage.push(origin);
          routePackage.push(waypoints);
          routePackage.push(destination);
@@ -135,7 +227,46 @@ class AdminPage extends Component {
     directionsCallback(response){
           if (response !== null) {
                if (response.status === 'OK') {
-                    this.setState({displayRoute: response, calledDirectionsService:true});
+                    this.setState({displayRoute1: response, calledDirectionsService:true});
+               }
+               else {
+                    console.log('Error: ', response)
+               }
+          }
+          else{
+               alert("There was no response from the DirectionsService. Something must have gonce wrong with the call.");
+          }
+     }
+     directionsCallback2(response){
+          if (response !== null) {
+               if (response.status === 'OK') {
+                    this.setState({displayRoute2: response, calledDirectionsService:true});
+               }
+               else {
+                    console.log('Error: ', response)
+               }
+          }
+          else{
+               alert("There was no response from the DirectionsService. Something must have gonce wrong with the call.");
+          }
+     }
+     directionsCallback3(response){
+          if (response !== null) {
+               if (response.status === 'OK') {
+                    this.setState({displayRoute3: response, calledDirectionsService:true});
+               }
+               else {
+                    console.log('Error: ', response)
+               }
+          }
+          else{
+               alert("There was no response from the DirectionsService. Something must have gonce wrong with the call.");
+          }
+     }
+     directionsCallback4(response){
+          if (response !== null) {
+               if (response.status === 'OK') {
+                    this.setState({displayRoute4: response, calledDirectionsService:true});
                }
                else {
                     console.log('Error: ', response)
@@ -500,23 +631,101 @@ class AdminPage extends Component {
 
                             >
                             {
-                            (this.state.RoutePackage != null && !this.state.calledDirectionsService) && (
+                            (this.state.RoutePackage1 != null && !this.state.calledDirectionsService) && (
                                  <DirectionsService
                                    options = {{
-                                        origin: this.state.RoutePackage[0],
-                                        waypoints: this.state.RoutePackage[1],
-                                        destination: this.state.RoutePackage[2],
+                                        origin: this.state.RoutePackage1[0],
+                                        waypoints: this.state.RoutePackage1[1],
+                                        destination: this.state.RoutePackage1[2],
                                         travelMode: 'DRIVING'
                                    }}
                                    callback = {(response) => this.directionsCallback(response)}
                                    onLoad = {(directionsService) => {this.directionsOnload(directionsService)}}
                                  />)
                             }
+                            {
+                            (this.state.RoutePackage2 != null && !this.state.calledDirectionsService) && (
+                                 <DirectionsService
+                                   options = {{
+                                        origin: this.state.RoutePackage2[0],
+                                        waypoints: this.state.RoutePackage2[1],
+                                        destination: this.state.RoutePackage2[2],
+                                        travelMode: 'DRIVING'
+                                   }}
+                                   callback = {(response) => this.directionsCallback2(response)}
+                                   onLoad = {(directionsService) => {this.directionsOnload(directionsService)}}
+                                 />)
+                            }
+                            {
+                            (this.state.RoutePackage3 != null && !this.state.calledDirectionsService) && (
+                                 <DirectionsService
+                                   options = {{
+                                        origin: this.state.RoutePackage3[0],
+                                        waypoints: this.state.RoutePackage3[1],
+                                        destination: this.state.RoutePackage3[2],
+                                        travelMode: 'DRIVING'
+                                   }}
+                                   callback = {(response) => this.directionsCallback(response)}
+                                   onLoad = {(directionsService) => {this.directionsOnload(directionsService)}}
+                                 />)
+                            }
+                            {
+                            (this.state.RoutePackage4 != null && !this.state.calledDirectionsService) && (
+                                 <DirectionsService
+                                   options = {{
+                                        origin: this.state.RoutePackage4[0],
+                                        waypoints: this.state.RoutePackage4[1],
+                                        destination: this.state.RoutePackage4[2],
+                                        travelMode: 'DRIVING'
+                                   }}
+                                   callback = {(response) => this.directionsCallback2(response)}
+                                   onLoad = {(directionsService) => {this.directionsOnload(directionsService)}}
+                                 />)
+                            }
                            {
-                                (this.state.displayRoute != null) &&
+                                (this.state.displayRoute1 != null) &&
                                 (<DirectionsRenderer
                                    options={{
-                                        directions:this.state.displayRoute,
+                                        directions:this.state.displayRoute1,
+                                        suppressMarkers: true,
+                                        preserveViewport: true,
+                                   }}
+
+
+
+                                />)
+                           }
+                           {
+                                (this.state.displayRoute2 != null) &&
+                                (<DirectionsRenderer
+                                   options={{
+                                        directions:this.state.displayRoute2,
+                                        suppressMarkers: true,
+                                        preserveViewport: true,
+                                   }}
+
+
+
+                                />)
+                           }
+                           {
+                                (this.state.displayRoute3 != null) &&
+                                (<DirectionsRenderer
+                                   options={{
+                                        directions:this.state.displayRoute3,
+                                        suppressMarkers: true,
+                                        preserveViewport: true,
+                                   }}
+
+
+
+                                />)
+                           }
+                           {
+                                (this.state.displayRoute4 != null) &&
+                                (<DirectionsRenderer
+                                   options={{
+                                        directions:this.state.displayRoute4,
                                         suppressMarkers: true,
                                         preserveViewport: true,
                                    }}
