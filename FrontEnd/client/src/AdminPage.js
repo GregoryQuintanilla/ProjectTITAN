@@ -1,5 +1,6 @@
 import React, {Component, useState} from 'react'
-import { Link } from 'react-router-dom';
+import {BrowserRouter as Router, Link} from 'react-router-dom';
+import axios from 'axios'
 import {
     MDBInput,
     MDBTabPane,
@@ -19,13 +20,14 @@ import {
 } from 'mdbreact';
 import { GoogleMap, LoadScript} from '@react-google-maps/api'
 import { MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
-import "./AdminPage.css"
+import "./AdminPage.css";
+import {withRouter} from 'react-router-dom';
 
-var drivers={};
+var drivers=[];
 class AdminPage extends Component {
     constructor() {
         super();
-        this.state = {activeItem: "1",
+        this.state = {Driver:'',activeItem: "1",
                         name: '',
                       Username:''
         };
@@ -33,9 +35,9 @@ class AdminPage extends Component {
         this.handleName = this.handleName.bind(this);
         this.handleUserName=this.handleUserName.bind(this);
         this.handleDriverAdd = this.handleDriverAdd.bind(this);
-
+        this.handleSubmit=this.handleSubmit.bind(this);
+        this.handleLogout=this.handleLogout.bind(this);
     }
-
     handleName(event) {
         this.setState({name: event.target.value});
     }
@@ -43,32 +45,91 @@ class AdminPage extends Component {
         this.setState({Username:event.target.value});
     }
 
-    handleDriverAdd(event) {
-        var name=this.state.name;
-        var Username=this.state.Username;
-        var NumUsernames=Object.keys(drivers).length;
-        if(NumUsernames<4){
-            if (name && Username !=null){
-                if (Username in drivers){
-                    alert("Username exists already")
-                }
-                drivers[Username]=name;
-                console.log(drivers)
-            }
-            else{
-                alert("Please enter a valid Name and Username")
-            }
-        }
-        else{
-            alert('Driver Limit Reached')
-        }
 
+
+    handleDriverAdd(event) {
+        const database=localStorage
+        var Admin=database.getItem("CurrentlyLoggedIn")
+        const name = this.state.name;
+        var username = this.state.Username.concat('');
+        // database.setItem(username+'name',name)
+        drivers.push(username)
+        database.setItem(Admin+'Drivers',drivers)
+        var currentDrivers=database.getItem(Admin+'Drivers')
+        console.log(currentDrivers)
+
+
+
+
+
+
+
+        // var name=this.state.name;
+        // var username=this.state.Username;
+        // var NumUsernames=drivers.length;
+        // if(NumUsernames<4){
+        //     if (name!='' && username!= '' ){
+        //         if (username in drivers){
+        //             alert("Username exists already")
+        //         }
+        //         if (database.getItem(username+'Login')!==null){
+        //             drivers.push(username)
+        //             alert('Driver Added. Remember To Save Changes When Finished')
+        //         }
+        //         else{
+        //             alert("UserName Doesn't Exist in Records")
+        //         }
+        //     }
+        //     else{
+        //         alert("Please enter a valid Name and Username")
+        //     }
+        // }
+        // else{
+        //     alert('Driver Limit Reached')
+        // }
+        //
         this.setState({name:'', Username:''});
         event.preventDefault();
     }
-    handleDriverSubmit(event){
+    handleSubmit(event) {
+
+
+        // const database=localStorage
+        // var Admin=database.getItem('CurrentlyLoggedIn');
+        // var CurrentDrivers=database.getItem(Admin+'Drivers')
+        // console.log(CurrentDrivers)
+        // if(drivers.length==0){
+        //     alert('Enter Drivers')
+        // }
+        // else if(CurrentDrivers!==null){
+        //     CurrentDrivers=CurrentDrivers.split[','];
+        //     console.log(typeof (CurrentDrivers))
+        //     drivers.forEach(function (driver, index) {
+        //         console.log(driver)
+        //         CurrentDrivers.push(driver)
+        //
+        //     });
+        //     database.setItem(Admin+"Drivers",CurrentDrivers.toString())
+        //
+        // }
+        // else if(CurrentDrivers===''){
+        //     var Drivers=drivers.toString();
+        //     database.setItem(Admin+'Drivers',Drivers)
+        //     alert('Changes Saved')
+        //     drivers=[];
+        // }
+        // event.preventDefault();
 
     }
+
+    handleLogout(event){
+        const database=localStorage;
+        database.setItem('CurrentlyLoggedIn',null);
+        this.props.history.push('/');
+
+    }
+
+
 
 
     toggle = tab => () => {
@@ -114,10 +175,10 @@ class AdminPage extends Component {
                                             </Link>
                                         </MDBNavItem>
                                         <MDBNavItem>
-                                            <Link link to={"/"}>
-                                                <MDBBtn className={"LogoutBtn"}>
-                                                    <MDBIcon icon={"power-off"}></MDBIcon>Logout</MDBBtn>
-                                            </Link>
+                                            <MDBBtn className={"LogoutBtn"} type="button" onClick={this.handleLogout}>
+                                                <MDBIcon icon={"power-off"}></MDBIcon>Logout
+                                            </MDBBtn>
+
                                         </MDBNavItem>
 
                                     </MDBNavbarNav>
@@ -152,21 +213,7 @@ class AdminPage extends Component {
                                                         </tr>
                                                     </MDBTableHead>
                                                     <MDBTableBody>
-                                                        <tr>
-                                                            <td>Alex</td>
-                                                            <td>Mark</td>
-                                                            <td></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>2</td>
-                                                            <td>Jacob</td>
-                                                            <td>Thornton</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>3</td>
-                                                            <td>Larry</td>
-                                                            <td>the Bird</td>
-                                                        </tr>
+
                                                     </MDBTableBody>
                                                 </MDBTable>
                                             </MDBCard>
@@ -175,10 +222,19 @@ class AdminPage extends Component {
                                     <MDBTabPane tabId="2" role="tabpanel" className={"tabpane"}>
                                         <MDBCard  className={"StopsCard "} >
                                             <MDBCard className={"MiddleCard"}>
-                                                <MDBIcon size ="2x" className={"icon"} icon={"map-pin"}></MDBIcon>
-                                                <MDBCardText className={"text"}>
-                                                    No Routes
-                                                </MDBCardText>
+                                                <MDBTable hover bordered striped>
+                                                    <MDBTableHead>
+                                                        <tr className={"TableHeader"}>
+                                                            <th> <MDBIcon icon={'pin'}/>
+                                                                Name</th>
+                                                            <th><MDBIcon icon={'user'}/>Username</th>
+                                                            <th><MDBIcon icon={'clipboard-check'}/>Actions</th>
+                                                        </tr>
+                                                    </MDBTableHead>
+                                                    <MDBTableBody>
+
+                                                    </MDBTableBody>
+                                                </MDBTable>
                                             </MDBCard>
                                             <Link
                                                 link
@@ -210,11 +266,11 @@ class AdminPage extends Component {
                                         <MDBCard className={"AddDriversCard"}>
                                             <MDBCard className={"FormCard"}>
                                                 <MDBCardBody>
-                                                    <form className={"AddDriverForm"} action="AddDrivers" method={"POST"} >
+                                                    <form className={"AddDriverForm"} action={"DriverSubmit"} method={"POST"} >
                                                         <p className="h4 text-center py-4">Input A Driver</p>
                                                         <div className="grey-text">
                                                             <MDBInput className={"form-control"}
-                                                                      tab='5'
+                                                                      name={"name"}
                                                                 label="Name"
                                                                 icon="user"
                                                                 group
@@ -225,6 +281,7 @@ class AdminPage extends Component {
                                                                 value={this.state.name} onChange={this.handleName}
                                                             />
                                                             <MDBInput
+                                                                name={"Username"}
                                                                 label="Username"
                                                                 icon="id-card"
                                                                 group
@@ -242,13 +299,12 @@ class AdminPage extends Component {
                                                         <MDBBtn type="button" onClick={this.handleDriverAdd} color="primary" className={"btn-block4"} >
                                                             Add
                                                         </MDBBtn>
-
                                                     </form>
                                                 </MDBCardBody>
                                             </MDBCard>
-                                            <MDBBtn  action ="DriverSubmit" method= "POST" className={"SaveChanges"} color={"primary"} type={"submit"} onClick={this.handleDriverSubmit}>
-                                                Save Changes
-                                            </MDBBtn>
+                                            {/*<MDBBtn  className={"SaveChanges"} color={"primary"}  type={"button"} onClick={this.handleSubmit} >*/}
+                                            {/*    Save Changes*/}
+                                            {/*</MDBBtn>*/}
 
                                             <Link link
                                                   to="#"
@@ -270,7 +326,7 @@ class AdminPage extends Component {
                                                         <p className="h4 text-left py-4">Upload A File</p>
                                                         <div className="grey-text">
                                                             <input type="file" onChange={this.onChange} />
-                                                            <button type="submit">Upload</button>
+                                                            <button type="button" >Upload</button>
                                                         </div>
                                                     </form>
 
@@ -370,7 +426,7 @@ class AdminPage extends Component {
                     <MDBCol className={"mapsection"} sm="9">
                         <LoadScript
                             id="script-loader"
-                            // googleMapsApiKey="AIzaSyDHe1AQwUrxyMTl6hrii3nPsfWU4CSbVKg"
+                            //googleMapsApiKey="AIzaSyDHe1AQwUrxyMTl6hrii3nPsfWU4CSbVKg"
 
                         >
                             <GoogleMap className={"Map"}
@@ -397,4 +453,5 @@ class AdminPage extends Component {
     }
 }
 
-export default AdminPage;
+export default withRouter(AdminPage);
+
