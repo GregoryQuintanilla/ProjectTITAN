@@ -1,6 +1,8 @@
 import React, {Component, useState} from 'react'
 import {BrowserRouter as Router, Link} from 'react-router-dom';
 import axios from 'axios'
+
+
 import {
     MDBInput,
     MDBTabPane,
@@ -18,18 +20,43 @@ import {
     MDBIcon,
     MDBFormInline, MDBCardBody
 } from 'mdbreact';
-import { GoogleMap, LoadScript} from '@react-google-maps/api'
+import { GoogleMap, LoadScript, DirectionsService, DirectionsRenderer, Marker} from '@react-google-maps/api'
 import { MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
 import "./AdminPage.css";
 import {withRouter} from 'react-router-dom';
 
+
 var drivers=[];
 class AdminPage extends Component {
+
     constructor() {
         super();
         this.state = {Driver:'',activeItem: "1",
+
                         name: '',
-                      Username:''
+                      Username:'',
+                      origin: { lat: 40.716, lng: -73.601},
+                      position: { lat: 40.716, lng: -73.601},
+                      Map: null,
+                      DirectionsService: null,
+                      addresses: null,
+                      geoCodedAddresses: null,
+                      geoCodedAddressesForMarkers: null,// The .length of this will be what was actually sent back from google. This will be the most accurate number of addresses.
+                      Marker: null,
+                      Route: null,
+                      RoutePackage: null,
+                      RoutePackage2: null,
+                      RoutePackage3: null,
+                      RoutePackage4: null,
+                      displayRoute1: null,
+                      displayRoute2: null,
+                      displayRoute3: null,
+                      displayRoute4: null,
+                      calledDirectionsService1:false,
+                      calledDirectionsService2:false,
+                      calledDirectionsService3:false,
+                      calledDirectionsService4:false,
+                      placeMarkers: false,
         };
 
         this.handleName = this.handleName.bind(this);
@@ -38,6 +65,224 @@ class AdminPage extends Component {
         this.handleSubmit=this.handleSubmit.bind(this);
         this.handleLogout=this.handleLogout.bind(this);
     }
+
+        this.directionsCallback = this.directionsCallback.bind(this);
+        this.directionsCallback2 = this.directionsCallback2.bind(this);
+        this.directionsCallback3 = this.directionsCallback3.bind(this);
+        this.directionsCallback4 = this.directionsCallback4.bind(this);
+        this.directionsOnload = this.directionsOnload.bind(this);
+        this.onCSVChange = this.onCSVChange.bind(this);
+        this.onCSVSubmit = this.onCSVSubmit.bind(this);
+        this.placeMarkers = this.placeMarkers.bind(this);
+        this.geocode = this.geocode.bind(this);
+        this.markerOnload = this.markerOnload.bind(this);
+        this.onMapLoad = this.onMapLoad.bind(this);
+        this.onCalculateClick = this.onCalculateClick.bind(this);
+        this.createRoutePackage = this.createRoutePackage.bind(this);
+        this.setPlaceMarker = this.setPlaceMarker.bind(this);
+        this.testData = this.testData.bind(this);
+
+    }
+    onMapLoad(map){
+         this.setState({Map:map});
+    }
+    onCSVChange(event,AdminPage){
+         let file = document.getElementById('stopUploadForm').datafile.files[0];
+         let fr = new FileReader();
+
+         fr.onload = function(e){
+              let text = fr.result;
+              let splitText = text.split('\r\n');
+              let fileLength = splitText.length;    // This is the number of addresses uploaded.
+              AdminPage.setState({addresses:splitText});
+              AdminPage.geocode();
+         }
+         fr.readAsText(file);
+    }
+    geocode(){
+         fetch("http://localhost:5000/geocode",{
+              method: 'POST',
+              headers:{
+                   'Content-Type': 'application/json'  //make sure this is spelled right, it makes a difference. 'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(this.state.addresses),
+
+         })
+
+         .then(res => res.json())
+         .then(res => this.setState( {geoCodedAddresses:res, geoCodedAddressesForMarkers: res.concat([])}, ()=>this.setPlaceMarker()));
+    }
+    onCSVSubmit(event){
+         event.preventDefault();
+         this.setState({activeItem:"2"});
+    }
+    onCalculateClick(){
+               let stops = this.state.geoCodedAddresses;
+               console.log(stops);
+               let origin = this.state.origin;
+               let route = computeRoute(origin,stops);
+               console.log(route);
+               this.setState({RouteList:route, geoCodedAddressesForMarkers:route.concat([])});
+               console.log("Length of the Route" + route.length)
+               let sections = Math.ceil(route.length / 25);
+               console.log("Number of sctions" + sections);
+               let firstSection = [];
+               let secondSection = [];
+               let thirdSection = [];
+               let fourthSection = [];
+
+               if(sections>=1){
+                    for(let i =0; i< route.length;i++){
+                         firstSection.push(route[i]);
+                    }
+                    console.log("1:");
+                    console.log(firstSection);
+               }
+               if(sections>=2){
+                    secondSection = firstSection.splice(26,firstSection.length);
+                    firstSection.push(secondSection[0]);
+                    console.log("2: ");
+                    console.log(secondSection);
+               }
+               if(sections >=3){
+                    thirdSection =  secondSection.splice(26,secondSection.length);
+                    secondSection.push(thirdSection[0]);
+                    console.log("3: ");
+                    console.log(thirdSection);
+               }
+               if(sections >= 4){
+                    fourthSection = thirdSection.splice(26,thirdSection.length); 
+                    thirdSection.push(fourthSection[0]);
+                    console.log("4: ");
+                    console.log(fourthSection);
+               }
+
+
+
+
+               let routePackage1 = null;
+               let routePackage2 = null;
+               let routePackage3 = null;
+               let routePackage4 = null;
+
+               if(sections >= 1){
+                    console.log("1 package");
+                    routePackage1 = this.createRoutePackage(firstSection);
+                    console.log(routePackage1);
+                    this.setState({RoutePackage1:routePackage1});
+               }
+               if(sections >=2 ){
+                    console.log("2 package");
+                    routePackage2 = this.createRoutePackage(secondSection);
+                    this.setState({RoutePackage2:routePackage2});
+               }
+               if(sections >= 3){
+                    console.log("3 package");
+                    routePackage3 = this.createRoutePackage(thirdSection);
+                    this.setState({RoutePackage3:routePackage3});
+               }
+               if(sections >= 4){
+                    console.log("4 package");
+                    routePackage4 = this.createRoutePackage(fourthSection);
+                    this.setState({RoutePackage4:routePackage4});
+               }
+               //this.setState({RoutePackage1:routePackage1,RoutePackage2:routePackage2,RoutePackage3:routePackage3,RoutePackage4:routePackage4 })
+          // }
+    }
+    createRoutePackage(route){
+         let routePackage = [];
+         let origin = route[0];
+         let destination = route[route.length-1];
+         route.splice(0,1);
+         route.splice(route.length-1,1);
+         let waypoints = [];
+
+         for(let i = 0; i<route.length-1;i++){
+              waypoints.push({location:route[i],stopover:true});
+         }
+
+
+         routePackage.push(origin);
+         routePackage.push(waypoints);
+         routePackage.push(destination);
+
+         return routePackage;
+    }
+    directionsOnload(directionsService){
+         this.setState( {DirectionsService: directionsService});
+    }
+    markerOnload(marker){
+         this.setState({Marker: marker});
+    }
+    directionsCallback(response){
+         this.testData()
+          if (response !== null) {
+               if (response.status === 'OK') {
+                    console.log("display route 1");
+                    console.log(response);
+                    this.setState({displayRoute1: response, calledDirectionsService1:true});
+                    this.placeMarkers()
+               }
+               else {
+                    console.log('Error: ', response)
+               }
+          }
+          else{
+               //alert("There was no response from the DirectionsService. Something must have gonce wrong with the call.");
+          }
+     }
+     directionsCallback2(response){
+          this.testData()
+          if (response !== null) {
+               if (response.status === 'OK') {
+                    console.log("display route 2");
+                    console.log(response);
+                    this.setState({displayRoute2: response, calledDirectionsService2:true});
+                    this.placeMarkers()
+               }
+               else {
+                    console.log('Error: ', response)
+               }
+          }
+          else{
+               //alert("There was no response from the DirectionsService. Something must have gonce wrong with the call.");
+          }
+     }
+     directionsCallback3(response){
+          this.testData()
+          if (response !== null) {
+               if (response.status === 'OK') {
+                    console.log("display route 3");
+                    console.log(response);
+                    this.setState({displayRoute3: response, calledDirectionsService3:true});
+                    this.placeMarkers()
+               }
+               else {
+                    console.log('Error: ', response)
+               }
+          }
+          else{
+               //alert("There was no response from the DirectionsService. Something must have gonce wrong with the call.");
+          }
+     }
+     directionsCallback4(response){
+          console.log(this.testData());
+          if (response !== null) {
+               if (response.status === 'OK') {
+                    console.log("display route 4");
+                    console.log(response);
+                    this.setState({displayRoute4: response, calledDirectionsService4:true});
+                    this.placeMarkers()
+               }
+               else {
+                    console.log('Error: ', response)
+               }
+          }
+          else{
+               //alert("There was no response from the DirectionsService. Something must have gonce wrong with the call.");
+          }
+     }
+
     handleName(event) {
         this.setState({name: event.target.value});
     }
@@ -122,6 +367,7 @@ class AdminPage extends Component {
 
     }
 
+
     handleLogout(event){
         const database=localStorage;
         database.setItem('CurrentlyLoggedIn',null);
@@ -132,6 +378,53 @@ class AdminPage extends Component {
 
 
 
+    setPlaceMarker(){
+         this.setState({placeMarkers:true}, () => this.placeMarkers());
+    }
+    testData(){
+         console.log(this.state);
+    }
+    placeMarkers(){
+         // console.log(this.state.Marker);
+         let addresses = this.state.geoCodedAddressesForMarkers;
+         //console.log(this.state.geoCodedAddresses.length);
+
+         let markers = []
+         for(let i  = 0; i<addresses.length; i++){
+             let newMarker = <Marker position = {addresses[i]} label = {i+''}/>;
+             markers.push(newMarker);
+         }
+         return markers;
+         // createElement(<Marker
+         //        onLoad = {(marker) => this.markerOnload(marker)}
+         //        position = { {lat:45,lng:-74} }
+         // />);
+         // console.log(testMarker);
+         // console.log(AdminPage);
+         // console.log(this);
+         // console.log(this.state.Marker);
+         // console.log(this.state.Map);
+         // console.log(document.getElementById('map'));
+         // let marker  = this.state.Marker;
+         // console.log(marker);
+         // marker.position = {lat:45,lng:-73};
+         // console.log(marker);
+         // let marker = <Marker
+         //        onLoad = {(marker) => this.markerOnload(marker)}
+         //        position = { {lat:45,lng:-73.55} }
+         // />
+         // console.log(marker.toString());
+         // let newElement = createElement(marker.toString());
+         // this.render();\
+         // let markers =[];
+         // let newMarker1 = <Marker position = {{lat:45,lng:-74}} />;
+         // let newMarker2 = <Marker position = {{lat:46,lng:-73}} />;
+         // markers.push(newMarker1);
+         // markers.push(newMarker2);
+         // return markers;
+    }
+
+
     toggle = tab => () => {
         if (this.state.activeItem !== tab) {
             this.setState({
@@ -139,6 +432,7 @@ class AdminPage extends Component {
             });
         }
     }
+
     render() {
         return (
 
@@ -212,6 +506,7 @@ class AdminPage extends Component {
                                                             <th><MDBIcon icon={'clipboard-check'}/>Actions</th>
                                                         </tr>
                                                     </MDBTableHead>
+
                                                     <MDBTableBody>
 
                                                     </MDBTableBody>
@@ -240,7 +535,7 @@ class AdminPage extends Component {
                                                 link
                                                 to="#"
                                                 active={this.state.activeItem === "3"}
-                                                onClick={this.toggle("3")}
+                                                onClick={() => this.testData()}
                                                 role="tab"
                                             >
                                                 <MDBBtn className={"AddStops"} color="primary">Add Stops</MDBBtn>
@@ -254,7 +549,7 @@ class AdminPage extends Component {
                                             >
                                                 <MDBBtn className={"UploadStops"} color="primary">Upload Stops</MDBBtn>
                                             </Link>
-                                            <MDBBtn  className={"CalculateBtn white-text "} color={"primary"}>
+                                            <MDBBtn  className={"CalculateBtn white-text "} color={"primary"} onClick={() => this.onCalculateClick()}>   // THIS IS THE CALC BUTTON, MAKE SURE TO PUT IT BACK
 
                                                 Calculate
 
@@ -322,11 +617,13 @@ class AdminPage extends Component {
                                         <MDBCard className={"UploadStopsCard"}>
                                             <MDBCard className={"FormCard"}>
                                                 <MDBCardBody>
-                                                    <form className={"Form"}>
+
+                                                    <form id="stopUploadForm" className={"Form"} onSubmit={(event) => {this.onCSVSubmit(event)}} >
                                                         <p className="h4 text-left py-4">Upload A File</p>
                                                         <div className="grey-text">
-                                                            <input type="file" onChange={this.onChange} />
-                                                            <button type="button" >Upload</button>
+
+                                                            <input type="file" name='datafile' accept='.csv' onChange={(event) => {this.onCSVChange(event,this)}} />
+                                                            <input type="submit"></input>
                                                         </div>
                                                     </form>
 
@@ -426,11 +723,11 @@ class AdminPage extends Component {
                     <MDBCol className={"mapsection"} sm="9">
                         <LoadScript
                             id="script-loader"
-                            //googleMapsApiKey="AIzaSyDHe1AQwUrxyMTl6hrii3nPsfWU4CSbVKg"
 
-                        >
+                            googleMapsApiKey="AIzaSyDHe1AQwUrxyMTl6hrii3nPsfWU4CSbVKg"
+                            >
                             <GoogleMap className={"Map"}
-                                       id='example-map'
+                                       id='map'
                                        mapContainerStyle={{
                                            height: "100%",
                                            width: "100%"
@@ -440,8 +737,123 @@ class AdminPage extends Component {
                                            lat: 40.716,
                                            lng: -73.601
                                        }}
+                                       onLoad = {(map) => this.onMapLoad(map)}
 
                             >
+                            {
+                            (this.state.RoutePackage1 != null && !this.state.calledDirectionsService1) && (
+                                 <DirectionsService
+                                   options = {{
+                                        origin: this.state.RoutePackage1[0],
+                                        waypoints: this.state.RoutePackage1[1],
+                                        destination: this.state.RoutePackage1[2],
+                                        travelMode: 'DRIVING'
+                                   }}
+                                   callback = {(response) => this.directionsCallback(response)}
+                                   onLoad = {(directionsService) => {this.directionsOnload(directionsService)}}
+                                 />)
+                            }
+                            {
+                            (this.state.RoutePackage2 != null && !this.state.calledDirectionsService2) && (
+                                 <DirectionsService
+                                   options = {{
+                                        origin: this.state.RoutePackage2[0],
+                                        waypoints: this.state.RoutePackage2[1],
+                                        destination: this.state.RoutePackage2[2],
+                                        travelMode: 'DRIVING'
+                                   }}
+                                   callback = {(response) => this.directionsCallback2(response)}
+                                   onLoad = {(directionsService) => {this.directionsOnload(directionsService)}}
+                                 />)
+                            }
+                            {
+                            (this.state.RoutePackage3 != null && !this.state.calledDirectionsService3) && (
+                                 <DirectionsService
+                                   options = {{
+                                        origin: this.state.RoutePackage3[0],
+                                        waypoints: this.state.RoutePackage3[1],
+                                        destination: this.state.RoutePackage3[2],
+                                        travelMode: 'DRIVING'
+                                   }}
+                                   callback = {(response) => this.directionsCallback3(response)}
+                                   onLoad = {(directionsService) => {this.directionsOnload(directionsService)}}
+                                 />)
+                            }
+                            {
+                            (this.state.RoutePackage4 != null && !this.state.calledDirectionsService4) && (
+                                 <DirectionsService
+                                   options = {{
+                                        origin: this.state.RoutePackage4[0],
+                                        waypoints: this.state.RoutePackage4[1],
+                                        destination: this.state.RoutePackage4[2],
+                                        travelMode: 'DRIVING'
+                                   }}
+                                   callback = {(response) => this.directionsCallback4(response)}
+                                   onLoad = {(directionsService) => {this.directionsOnload(directionsService)}}
+                                 />)
+                            }
+                           {
+                                (this.state.displayRoute1 != null) &&
+                                (<DirectionsRenderer
+                                   options={{
+                                        directions:this.state.displayRoute1,
+                                        suppressMarkers: true,
+                                        preserveViewport: true,
+                                   }}
+
+
+
+                                />)
+                           }
+                           {
+                                (this.state.displayRoute2 != null) &&
+                                (<DirectionsRenderer
+                                   options={{
+                                        directions:this.state.displayRoute2,
+                                        suppressMarkers: true,
+                                        preserveViewport: true,
+                                   }}
+
+
+
+                                />)
+                           }
+                           {
+                                (this.state.displayRoute3 != null) &&
+                                (<DirectionsRenderer
+                                   options={{
+                                        directions:this.state.displayRoute3,
+                                        suppressMarkers: true,
+                                        preserveViewport: true,
+                                   }}
+
+
+
+                                />)
+                           }
+                           {
+                                (this.state.displayRoute4 != null) &&
+                                (<DirectionsRenderer
+                                   options={{
+                                        directions:this.state.displayRoute4,
+                                        suppressMarkers: true,
+                                        preserveViewport: true,
+                                   }}
+
+
+
+                                />)
+                           }
+                            {
+                                 <Marker
+                                        onLoad = {(marker) => this.markerOnload(marker)}
+                                        position = { this.state.position}
+                                 />
+                            }
+                            {
+                                 (this.state.placeMarkers) && (this.placeMarkers())
+                            }
+
                             </GoogleMap>
                         </LoadScript>
 
