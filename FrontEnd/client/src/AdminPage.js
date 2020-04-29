@@ -107,24 +107,6 @@ class AdminPage extends Component {
          this.setState({activeItem:"2"});
     }
     onCalculateClick(){
-         this.testData()
-         // if(this.state.geoCodedAddresses == null){
-         //      alert("Please upload your locations");
-         // }
-         // else{
-               // let stops = [];
-               // for(let j = 0;j<100;j++){
-               //      stops.push(j);
-               // }
-               //console.log(stops);
-               //let sections = Math.ceil(stops.length/25)//let sections = Math.ceil(this.state.geoCodedAddresses / 25);
-               //let stops = this.state.geoCodedAddresses;
-               //let firstSection = []; // origin: origin, stops:0-23, destination:24
-               // firstSection.push(-1);//firstSection.push(this.state.origin);
-               // for(let i = 0;i<stops.length;i++){
-               //      firstSection.push(stops[i]);
-               // }
-
                let stops = this.state.geoCodedAddresses;
                console.log(stops);
                let origin = this.state.origin;
@@ -140,33 +122,26 @@ class AdminPage extends Component {
                let fourthSection = [];
 
                if(sections>=1){
-                    //firstSection.push(route[0]);
                     for(let i =0; i< route.length;i++){
                          firstSection.push(route[i]);
                     }
                     console.log("1:");
                     console.log(firstSection);
                }
-               // let secondSection = firstSection.splice(26,firstSection.length); // origin: 24, waypoint:25-49, destination:50
-               // firstSection.push(secondSection[0]);
-               // let thirdSection =  secondSection.splice(26,stops.length); // origin 50, waypoints:51-74, destiantion:75
-               // secondSection.push(thirdSection[0]);
-               // let fourthSection = thirdSection.splice(26,stops.length); //origin 75, waypoints:76-98, destination:99
-               // thirdSection.push(fourthSection[0]);
                if(sections>=2){
-                    secondSection = firstSection.splice(26,firstSection.length); // origin: 24, waypoint:25-49, destination:50
+                    secondSection = firstSection.splice(26,firstSection.length);
                     firstSection.push(secondSection[0]);
                     console.log("2: ");
                     console.log(secondSection);
                }
                if(sections >=3){
-                    thirdSection =  secondSection.splice(26,secondSection.length); // origin 50, waypoints:51-74, destiantion:75
+                    thirdSection =  secondSection.splice(26,secondSection.length);
                     secondSection.push(thirdSection[0]);
                     console.log("3: ");
                     console.log(thirdSection);
                }
                if(sections >= 4){
-                    fourthSection = thirdSection.splice(26,thirdSection.length); //origin 75, waypoints:76-98, destination:99
+                    fourthSection = thirdSection.splice(26,thirdSection.length); 
                     thirdSection.push(fourthSection[0]);
                     console.log("4: ");
                     console.log(fourthSection);
@@ -458,7 +433,7 @@ class AdminPage extends Component {
                                                             <th><MDBIcon icon={'clipboard-check'}/>Actions</th>
                                                         </tr>
                                                     </MDBTableHead>
-                                                    <MDBTableBody>
+                                                    <MDBTableBody id = "driverTable">
                                                         <tr>
                                                             <td>Alex</td>
                                                             <td>Mark</td>
@@ -474,6 +449,13 @@ class AdminPage extends Component {
                                                             <td>Larry</td>
                                                             <td>the Bird</td>
                                                         </tr>
+
+                                                        let newRow = <tr>  </tr>;
+                                                        newData1= <td> # </td>
+                                                        newData2 = <td> firstName
+                                                        newData3 =  </td> <td> lastName </td>
+                                                        newRow.push(newdata1)
+
                                                     </MDBTableBody>
                                                 </MDBTable>
                                             </MDBCard>
@@ -804,13 +786,6 @@ class AdminPage extends Component {
                                         onLoad = {(marker) => this.markerOnload(marker)}
                                         position = { this.state.position}
                                  />
-                            }
-                            {
-                                 <Marker
-                                        onLoad = {(marker) => this.markerOnload(marker)}
-                                        position = {{lat:1,lng:1}}
-                                 />
-
                             }
                             {
                                  (this.state.placeMarkers) && (this.placeMarkers())
