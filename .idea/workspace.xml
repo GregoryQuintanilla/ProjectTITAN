@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="68ab0811-cf1d-4aa5-95c1-a94b72cfa907" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/FrontEnd/client/src/AdminPage.css" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/client/src/AdminPage.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/client/src/AdminPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/client/src/AdminPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/client/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/client/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/client/src/DriverPage.css" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/client/src/DriverPage.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/client/src/DriverPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/client/src/DriverPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/client/src/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/client/src/Login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/client/src/routeBuilder.js" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/client/src/routeBuilder.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/client/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/client/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/server.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1b5y7e8aUnyhc3HCSI3tqO3CIqX" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_package_manager_path" value="npm" />
+  </component>
+  <component name="RunManager">
+    <configuration name="routeBuilder.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/FrontEnd/client/src/routeBuilder.js" working-dir="$PROJECT_DIR$/FrontEnd/client/src">
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Node.js.routeBuilder.js" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="68ab0811-cf1d-4aa5-95c1-a94b72cfa907" name="Default Changelist" comment="" />
+      <created>1587936082917</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1587936082917</updated>
+      <workItem from="1587936086176" duration="10000" />
+      <workItem from="1587936216626" duration="12000" />
+      <workItem from="1587936753171" duration="1000" />
+      <workItem from="1588122295065" duration="7000" />
+      <workItem from="1588128379754" duration="1757000" />
+      <workItem from="1588130246637" duration="11457000" />
+      <workItem from="1588143474025" duration="40007000" />
+      <workItem from="1588209273744" duration="1419000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state width="2264" height="382" key="GridCell.Tab.0.bottom" timestamp="1588143769785">
+      <screen x="0" y="23" width="2560" height="1338" />
+    </state>
+    <state width="2264" height="382" key="GridCell.Tab.0.bottom/-2560.23.2560.1417/0.23.2560.1338/2560.23.2560.1417@0.23.2560.1338" timestamp="1588143769785" />
+    <state width="2264" height="382" key="GridCell.Tab.0.center" timestamp="1588143769785">
+      <screen x="0" y="23" width="2560" height="1338" />
+    </state>
+    <state width="2264" height="382" key="GridCell.Tab.0.center/-2560.23.2560.1417/0.23.2560.1338/2560.23.2560.1417@0.23.2560.1338" timestamp="1588143769785" />
+    <state width="2264" height="382" key="GridCell.Tab.0.left" timestamp="1588143769785">
+      <screen x="0" y="23" width="2560" height="1338" />
+    </state>
+    <state width="2264" height="382" key="GridCell.Tab.0.left/-2560.23.2560.1417/0.23.2560.1338/2560.23.2560.1417@0.23.2560.1338" timestamp="1588143769785" />
+    <state width="2264" height="382" key="GridCell.Tab.0.right" timestamp="1588143769785">
+      <screen x="0" y="23" width="2560" height="1338" />
+    </state>
+    <state width="2264" height="382" key="GridCell.Tab.0.right/-2560.23.2560.1417/0.23.2560.1338/2560.23.2560.1417@0.23.2560.1338" timestamp="1588143769785" />
+    <state x="661" y="301" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1588138137225">
+      <screen x="0" y="23" width="2560" height="1338" />
+    </state>
+    <state x="661" y="301" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/-2560.23.2560.1417/0.23.2560.1338/2560.23.2560.1417@0.23.2560.1338" timestamp="1588138137225" />
+    <state x="3131" y="130" width="1989" height="892" key="dock-window-1" timestamp="1588209537426">
+      <screen x="2560" y="23" width="2560" height="1417" />
+    </state>
+    <state x="3131" y="130" width="1989" height="892" key="dock-window-1/-2560.23.2560.1417/0.23.2560.1338/2560.23.2560.1417@0.23.2560.1338" timestamp="1588209537426" />
+    <state x="2910" y="258" width="1989" height="1180" key="dock-window-2" timestamp="1588209537426">
+      <screen x="2560" y="23" width="2560" height="1417" />
+    </state>
+    <state x="2910" y="258" width="1989" height="1180" key="dock-window-2/-2560.23.2560.1417/0.23.2560.1338/2560.23.2560.1417@0.23.2560.1338" timestamp="1588209537426" />
+    <state x="761" y="384" width="670" height="676" key="search.everywhere.popup" timestamp="1588208958913">
+      <screen x="0" y="23" width="2560" height="1338" />
+    </state>
+    <state x="761" y="384" width="670" height="676" key="search.everywhere.popup/-2560.23.2560.1417/0.23.2560.1338/2560.23.2560.1417@0.23.2560.1338" timestamp="1588208958913" />
+  </component>
+</project>
