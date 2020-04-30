@@ -1,4 +1,4 @@
-# Pathfinder
+# ProjectTITAN
 This is the repository for Hofstra University's Computer Science Software Engineering Course were our team is creating a fleet routing service.
 
 To get the repo please type 'git clone https://github.com/GregoryQuintanilla/190FleetMapping.git' in the desired folder you want to store teh project on your personal machine.
