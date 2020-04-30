@@ -16,7 +16,6 @@ import {
     MDBCardBody, MDBCardHeader, MDBTableHead, MDBTableBody, MDBTable
 } from 'mdbreact';
 import "./DriverPage.css"
-
 import {withRouter} from 'react-router-dom';
 
 class DriverPage extends Component{
@@ -114,111 +113,110 @@ class DriverPage extends Component{
                                             <MDBTable hover bordered striped maxHeight={"100vh"} scrollY className={'Table'}>
                                                 <MDBTableHead>
                                                     <tr className={"TableHeader"}>
-                                                        <th> <MDBIcon icon={'pin'}/>
-                                                            Stops</th>
+                                                        <th>Welcome, {localStorage.getItem("CurrentlyLoggedIn")} these are your stops!</th>
                                                     </tr>
                                                 </MDBTableHead>
                                                 <MDBTableBody className={"TableBody"} color={'white'}>
-                                                    <tr> Sondra and David S. Mack Student Center, Hempstead, NY 11550, USA</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress1')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress2')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress3')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress4')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress5')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress6')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress7')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress8')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress9')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress10')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress11')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress12')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress13')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress14')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress15')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress16')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress17')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress18')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress19')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress20')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress21')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress22')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress23')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress24')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress25')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress26')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress27')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress28')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress29')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress30')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress31')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress32')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress33')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress34')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress35')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress36')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress37')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress38')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress39')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress40')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress41')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress42')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress43')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress44')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress45')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress46')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress47')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress48')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress49')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress50')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress51')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress52')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress53')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress54')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress55')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress56')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress57')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress58')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress59')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress60')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress61')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress62')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress63')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress64')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress65')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress66')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress67')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress68')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress69')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress70')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress71')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress72')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress73')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress74')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress75')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress76')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress77')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress78')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress79')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress80')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress81')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress82')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress83')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress84')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress85')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress86')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress87')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress88')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress89')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress90')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress91')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress92')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress93')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress94')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress95')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress96')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress97')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress98')}</tr>
-                                                    <tr> {localStorage.getItem(this.handleData()+'OrderedAddress99')}</tr>
+                                                    <tr> <td>Sondra and David S. Mack Student Center, Hempstead, NY 11550, USA</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress1')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress2')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress3')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress4')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress5')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress6')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress7')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress8')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress9')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress10')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress11')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress12')}</td></tr>
+                                                    <tr><td>{localStorage.getItem(this.handleData()+'OrderedAddress13')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress14')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress15')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress16')}</td></tr>
+                                                    <tr><td>{localStorage.getItem(this.handleData()+'OrderedAddress17')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress18')}</td></tr>
+                                                    <tr><td>{localStorage.getItem(this.handleData()+'OrderedAddress19')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress20')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress21')}</td></tr>
+                                                    <tr><td>{localStorage.getItem(this.handleData()+'OrderedAddress22')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress23')}</td></tr>
+                                                    <tr><td>{localStorage.getItem(this.handleData()+'OrderedAddress24')}</td></tr>
+                                                    <tr><td>{localStorage.getItem(this.handleData()+'OrderedAddress25')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress26')}</td></tr>
+                                                    <tr><td>{localStorage.getItem(this.handleData()+'OrderedAddress27')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress28')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress29')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress30')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress31')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress32')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress33')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress34')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress35')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress36')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress37')}</td></tr>
+                                                    <tr><td>{localStorage.getItem(this.handleData()+'OrderedAddress38')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress39')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress40')}</td></tr>
+                                                    <tr><td>{localStorage.getItem(this.handleData()+'OrderedAddress41')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress42')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress43')}</td></tr>
+                                                    <tr><td>{localStorage.getItem(this.handleData()+'OrderedAddress44')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress45')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress46')}</td></tr>
+                                                    <tr><td>{localStorage.getItem(this.handleData()+'OrderedAddress47')}</td></tr>
+                                                    <tr><td>{localStorage.getItem(this.handleData()+'OrderedAddress48')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress49')}</td></tr>
+                                                    <tr><td>{localStorage.getItem(this.handleData()+'OrderedAddress50')}</td></tr>
+                                                    <tr><td>{localStorage.getItem(this.handleData()+'OrderedAddress51')}</td></tr>
+                                                    <tr><td>{localStorage.getItem(this.handleData()+'OrderedAddress52')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress53')}</td></tr>
+                                                    <tr><td>{localStorage.getItem(this.handleData()+'OrderedAddress54')}</td></tr>
+                                                    <tr><td>{localStorage.getItem(this.handleData()+'OrderedAddress55')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress56')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress57')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress58')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress59')}</td></tr>
+                                                    <tr><td>{localStorage.getItem(this.handleData()+'OrderedAddress60')}</td> </tr>
+                                                    <tr><td>{localStorage.getItem(this.handleData()+'OrderedAddress61')}</td> </tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress62')}</td></tr>
+                                                    <tr><td> {localStorage.getItem(this.handleData()+'OrderedAddress63')}</td></tr>
+                                                    <tr><td> {localStorage.getItem(this.handleData()+'OrderedAddress64')}</td></tr>
+                                                    <tr><td> {localStorage.getItem(this.handleData()+'OrderedAddress65')}</td></tr>
+                                                    <tr><td>{localStorage.getItem(this.handleData()+'OrderedAddress66')}</td> </tr>
+                                                    <tr><td>{localStorage.getItem(this.handleData()+'OrderedAddress67')}</td> </tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress68')}</td></tr>
+                                                    <tr><td>{localStorage.getItem(this.handleData()+'OrderedAddress69')}</td> </tr>
+                                                    <tr><td>{localStorage.getItem(this.handleData()+'OrderedAddress70')}</td> </tr>
+                                                    <tr><td> {localStorage.getItem(this.handleData()+'OrderedAddress71')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress72')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress73')}</td></tr>
+                                                    <tr><td> {localStorage.getItem(this.handleData()+'OrderedAddress74')}</td></tr>
+                                                    <tr><td> {localStorage.getItem(this.handleData()+'OrderedAddress75')}</td></tr>
+                                                    <tr><td> {localStorage.getItem(this.handleData()+'OrderedAddress76')}</td></tr>
+                                                    <tr><td>{localStorage.getItem(this.handleData()+'OrderedAddress77')}</td></tr>
+                                                    <tr><td> {localStorage.getItem(this.handleData()+'OrderedAddress78')}</td></tr>
+                                                    <tr><td> {localStorage.getItem(this.handleData()+'OrderedAddress79')}</td></tr>
+                                                    <tr><td> {localStorage.getItem(this.handleData()+'OrderedAddress80')}</td></tr>
+                                                    <tr><td>{localStorage.getItem(this.handleData()+'OrderedAddress81')}</td> </tr>
+                                                    <tr><td> {localStorage.getItem(this.handleData()+'OrderedAddress82')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress83')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress84')}</td></tr>
+                                                    <tr><td> {localStorage.getItem(this.handleData()+'OrderedAddress85')}</td></tr>
+                                                    <tr><td> {localStorage.getItem(this.handleData()+'OrderedAddress86')}</td></tr>
+                                                    <tr><td> {localStorage.getItem(this.handleData()+'OrderedAddress87')}</td></tr>
+                                                    <tr><td>{localStorage.getItem(this.handleData()+'OrderedAddress88')}</td></tr>
+                                                    <tr><td> {localStorage.getItem(this.handleData()+'OrderedAddress89')}</td></tr>
+                                                    <tr><td> {localStorage.getItem(this.handleData()+'OrderedAddress90')}</td></tr>
+                                                    <tr><td> {localStorage.getItem(this.handleData()+'OrderedAddress91')}</td></tr>
+                                                    <tr><td>{localStorage.getItem(this.handleData()+'OrderedAddress92')}</td> </tr>
+                                                    <tr><td> {localStorage.getItem(this.handleData()+'OrderedAddress93')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress94')}</td></tr>
+                                                    <tr> <td>{localStorage.getItem(this.handleData()+'OrderedAddress95')}</td></tr>
+                                                    <tr><td> {localStorage.getItem(this.handleData()+'OrderedAddress96')}</td></tr>
+                                                    <tr><td> {localStorage.getItem(this.handleData()+'OrderedAddress97')}</td></tr>
+                                                    <tr><td> {localStorage.getItem(this.handleData()+'OrderedAddress98')}</td></tr>
+                                                    <tr><td>{localStorage.getItem(this.handleData()+'OrderedAddress99')}</td></tr>
                                                 </MDBTableBody>
                                             </MDBTable>
 

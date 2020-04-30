@@ -26,7 +26,6 @@ import "./AdminPage.css";
 import {withRouter} from 'react-router-dom';
 
 
-var drivers=[];
 class AdminPage extends Component {
 
     constructor() {
@@ -89,6 +88,7 @@ class AdminPage extends Component {
         this.createRoutePackage = this.createRoutePackage.bind(this);
         this.setPlaceMarker = this.setPlaceMarker.bind(this);
         this.displayItin=this.displayItin.bind(this);
+        this.getStops=this.getStops.bind(this);
 
     }
 
@@ -183,6 +183,7 @@ class AdminPage extends Component {
         return false;
     }
     onCalculateClick(){
+                console.log(localStorage.getItem("Route1OrderedAddress93"))
                let stops = this.state.geoCodedAddresses;
                //console.log(stops);
                let origin = this.state.origin;
@@ -368,21 +369,27 @@ class AdminPage extends Component {
         const database=localStorage
         var username = this.state.Username;
         database.setItem("Driver",username)
-        if(username!=''){
-            for(var i=1;i<17;i++){
-                if (database.getItem("Driver"+i)!==null){
-                    continue
-                }
-                else{
-                    database.setItem("Driver"+i,username)
-                    database.setItem(username,"Driver"+i)
-                    break
+        if(localStorage.getItem(username+'Login')!==null){
+            if(username!=''){
+                for(var i=1;i<17;i++){
+                    if (database.getItem("Driver"+i)!==null){
+                        continue
+                    }
+                    else{
+                        database.setItem("Driver"+i,username)
+                        database.setItem(username,"Driver"+i)
+                        alert("Driver Added!")
+                        break
+                    }
+
                 }
 
+            }else{
+                alert('Fill in All Fields')
             }
 
         }else{
-            alert('Fill in All Fields')
+            alert("Driver does not exist! This may be because they haven't registered yet!")
         }
         this.setState({name:'', Username:''});
         event.preventDefault();
@@ -456,6 +463,21 @@ class AdminPage extends Component {
 
 
     }
+    getStops(route){
+        var stops=''
+        for(let i=1;i<100;i++){
+            if((localStorage.getItem(route+"OrderedAddress"+i))===null){
+                return stops
+            }else{
+                 stops=stops+localStorage.getItem(route+"OrderedAddress"+i)
+                if(i==99){
+                    return stops
+                }
+
+            }
+        }
+
+    }
 
     render() {
         return (
@@ -526,28 +548,27 @@ class AdminPage extends Component {
                                                         <tr className={"TableHeader"}>
                                                             <th> <MDBIcon icon={'user'}/>
                                                                  Username</th>
-                                                            <th><MDBIcon icon={'user'}/>Route</th>
+                                                            <th><MDBIcon icon={'map-pin'}/>Route</th>
                                                         </tr>
                                                     </MDBTableHead>
-                                                    <tr><td>{localStorage.getItem("Driver1")}</td><td>{localStorage.getItem("Route1")}</td></tr>
-                                                    <tr><td>{localStorage.getItem("Driver2")}</td><td>{localStorage.getItem("Route2")}</td></tr>
-                                                    <tr><td>{localStorage.getItem("Driver3")}</td><td>{localStorage.getItem("Route3")}</td></tr>
-                                                    <tr><td>{localStorage.getItem("Driver4")}</td><td>{localStorage.getItem("Route4")}</td></tr>
-                                                    <tr><td>{localStorage.getItem("Driver5")}</td><td>{localStorage.getItem("Route5")}</td></tr>
-                                                    <tr><td>{localStorage.getItem("Driver6")}</td><td>{localStorage.getItem("Route6")}</td></tr>
-                                                    <tr><td>{localStorage.getItem("Driver7")}</td><td>{localStorage.getItem("Route7")}</td></tr>
-                                                    <tr><td>{localStorage.getItem("Driver8")}</td><td>{localStorage.getItem("Route8")}</td></tr>
-                                                    <tr><td>{localStorage.getItem("Driver9")}</td><td>{localStorage.getItem("Route9")}</td></tr>
-                                                    <tr><td>{localStorage.getItem("Driver10")}</td><td>{localStorage.getItem("Route10")}</td></tr>
-                                                    <tr><td>{localStorage.getItem("Driver11")}</td><td>{localStorage.getItem("Route11")}</td></tr>
-                                                    <tr><td>{localStorage.getItem("Driver12")}</td><td>{localStorage.getItem("Route12")}</td></tr>
-                                                    <tr><td>{localStorage.getItem("Driver13")}</td><td>{localStorage.getItem("Route13")}</td></tr>
-                                                    <tr><td>{localStorage.getItem("Driver14")}</td><td>{localStorage.getItem("Route14")}</td></tr>
-                                                    <tr><td>{localStorage.getItem("Driver15")}</td><td>{localStorage.getItem("Route15")}</td></tr>
-                                                    <tr><td>{localStorage.getItem("Driver16")}</td><td>{localStorage.getItem("Route16")}</td></tr>
-
-
                                                     <MDBTableBody>
+                                                        <tr><td>{localStorage.getItem("Driver1")}</td><td>{localStorage.getItem("Route1")}</td></tr>
+                                                        <tr><td>{localStorage.getItem("Driver2")}</td><td>{localStorage.getItem("Route2")}</td></tr>
+                                                        <tr><td>{localStorage.getItem("Driver3")}</td><td>{localStorage.getItem("Route3")}</td></tr>
+                                                        <tr><td>{localStorage.getItem("Driver4")}</td><td>{localStorage.getItem("Route4")}</td></tr>
+                                                        <tr><td>{localStorage.getItem("Driver5")}</td><td>{localStorage.getItem("Route5")}</td></tr>
+                                                        <tr><td>{localStorage.getItem("Driver6")}</td><td>{localStorage.getItem("Route6")}</td></tr>
+                                                        <tr><td>{localStorage.getItem("Driver7")}</td><td>{localStorage.getItem("Route7")}</td></tr>
+                                                        <tr><td>{localStorage.getItem("Driver8")}</td><td>{localStorage.getItem("Route8")}</td></tr>
+                                                        <tr><td>{localStorage.getItem("Driver9")}</td><td>{localStorage.getItem("Route9")}</td></tr>
+                                                        <tr><td>{localStorage.getItem("Driver10")}</td><td>{localStorage.getItem("Route10")}</td></tr>
+                                                        <tr><td>{localStorage.getItem("Driver11")}</td><td>{localStorage.getItem("Route11")}</td></tr>
+                                                        <tr><td>{localStorage.getItem("Driver12")}</td><td>{localStorage.getItem("Route12")}</td></tr>
+                                                        <tr><td>{localStorage.getItem("Driver13")}</td><td>{localStorage.getItem("Route13")}</td></tr>
+                                                        <tr><td>{localStorage.getItem("Driver14")}</td><td>{localStorage.getItem("Route14")}</td></tr>
+                                                        <tr><td>{localStorage.getItem("Driver15")}</td><td>{localStorage.getItem("Route15")}</td></tr>
+                                                        <tr><td>{localStorage.getItem("Driver16")}</td><td>{localStorage.getItem("Route16")}</td></tr>
+
 
                                                     </MDBTableBody>
                                                 </MDBTable>
@@ -560,29 +581,30 @@ class AdminPage extends Component {
                                                 <MDBTable hover bordered striped maxHeight={"100vh"} scrollY className={'Table'}>
                                                     <MDBTableHead>
                                                         <tr className={"TableHeader"}>
-                                                            <th> <MDBIcon icon={'pin'}/>
+                                                            <th> <MDBIcon/>
                                                                 Route</th>
+                                                            <th>
+                                                                <MDBIcon icon={'map-pin'}/>
+                                                                Stops</th>
                                                         </tr>
                                                     </MDBTableHead>
                                                     <MDBTableBody>
-                                                        <tr>{localStorage.getItem("Route1")}</tr>
-                                                        <tr>{localStorage.getItem("Route2")}</tr>
-                                                        <tr>{localStorage.getItem("Route3")}</tr>
-                                                        <tr>{localStorage.getItem("Route4")}</tr>
-                                                        <tr>{localStorage.getItem("Route5")}</tr>
-                                                        <tr>{localStorage.getItem("Route6")}</tr>
-                                                        <tr>{localStorage.getItem("Route7")}</tr>
-                                                        <tr>{localStorage.getItem("Route8")}</tr>
-                                                        <tr>{localStorage.getItem("Route9")}</tr>
-                                                        <tr>{localStorage.getItem("Route10")}</tr>
-                                                        <tr>{localStorage.getItem("Route11")}</tr>
-                                                        <tr>{localStorage.getItem("Route12")}</tr>
-                                                        <tr>{localStorage.getItem("Route13")}</tr>
-                                                        <tr>{localStorage.getItem("Route14")}</tr>
-                                                        <tr>{localStorage.getItem("Route15")}</tr>
-                                                        <tr>{localStorage.getItem("Route16")}</tr>
-
-
+                                                        <tr><td>{localStorage.getItem("Route1")}</td><td>{this.getStops("Route1")}</td></tr>
+                                                        <tr><td>{localStorage.getItem("Route2")}</td><td>{this.getStops("Route2")}</td></tr>
+                                                        <tr><td>{localStorage.getItem("Route3")}</td><td>{this.getStops("Route3")}</td></tr>
+                                                        <tr><td>{localStorage.getItem("Route4")}</td><td>{this.getStops("Route4")}</td></tr>
+                                                        <tr><td>{localStorage.getItem("Route5")}</td><td>{this.getStops("Route5")}</td></tr>
+                                                        <tr><td>{localStorage.getItem("Route6")}</td><td>{this.getStops("Route6")}</td></tr>
+                                                        <tr><td>{localStorage.getItem("Route7")}</td><td>{this.getStops("Route7")}</td></tr>
+                                                        <tr><td>{localStorage.getItem("Route8")}</td><td>{this.getStops("Route8")}</td></tr>
+                                                        <tr><td>{localStorage.getItem("Route9")}</td><td>{this.getStops("Route9")}</td></tr>
+                                                        <tr><td>{localStorage.getItem("Route10")}</td><td>{this.getStops("Route10")}</td></tr>
+                                                        <tr><td>{localStorage.getItem("Route11")}</td><td>{this.getStops("Route11")}</td></tr>
+                                                        <tr><td>{localStorage.getItem("Route12")}</td><td>{this.getStops("Route12")}</td></tr>
+                                                        <tr><td>{localStorage.getItem("Route13")}</td><td>{this.getStops("Route13")}</td></tr>
+                                                        <tr><td>{localStorage.getItem("Route14")}</td><td>{this.getStops("Route14")}</td></tr>
+                                                        <tr><td>{localStorage.getItem("Route15")}</td><td>{this.getStops("Route15")}</td></tr>
+                                                        <tr><td>{localStorage.getItem("Route16")}</td><td>{this.getStops("Route16")}</td></tr>
                                                     </MDBTableBody>
                                                 </MDBTable>
                                             </MDBCard>
